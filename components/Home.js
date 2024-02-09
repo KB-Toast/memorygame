@@ -30,9 +30,7 @@ function Home() {
   const [gameCounter, setGameCounter] = useState(0);
   const [timerStarted, setTimerStarted] = useState(false);
 
-  // added timer maybe
   const [timer, setTimer] = useState(0);
-  //const newTimer = timer + 1;
   useEffect(() => {
     if (timerStarted === true && okCards.length < deck.length / 2) {
       const newTimer = timer + 1;
@@ -74,8 +72,8 @@ function Home() {
   };
 
   const handleCardClick = (card) => {
-    if (lastCard && lastCard.id !== card.id) {
-      if (lastCard.name === card.name) {
+    if (lastCard) {
+      if (lastCard.name === card.name && lastCard.id !== card.id) {
         if (okCards.length === deck.length / 2 - 1) {
           setTimeout(() => {
             setGameCounter(gameCounter + 1);
@@ -102,6 +100,10 @@ function Home() {
   //okCards.length === deck.length / 2 && setGameCounter(gameCounter + 1);
 
   const cardsToDisplay = newDeck.map((card) => {
+    const foundCard = okCards.find((elem) => elem.name === card.name);
+    let isOk = false;
+    foundCard !== undefined ? (isOk = true) : (isOk = false);
+
     return (
       <Card
         key={card.id}
@@ -109,7 +111,8 @@ function Home() {
         name={card.name}
         image={card.image}
         selectCard={selectCard}
-        selected={selected.includes(card.id) || okCards.includes(card.name)}
+        //selected={selected.includes(card.id) || okCards.includes(card.name)}
+        selected={selected.includes(card.id) || isOk}
         handleCardClick={handleCardClick}
       />
     );
