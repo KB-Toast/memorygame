@@ -85,7 +85,7 @@ function Home() {
             setNewDeck([]);
             setTimer(0);
             setTimerStarted(false);
-          }, 2500);
+          }, 3500);
         }
 
         setOkCards([...okCards, card]);
