@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Card from './Card';
+import Timer from './Timer';
 import styles from '../styles/Home.module.css';
 
 function Home() {
@@ -27,6 +28,21 @@ function Home() {
   const [lastCard, setLastCard] = useState();
   const [okCards, setOkCards] = useState([]);
   const [gameCounter, setGameCounter] = useState(0);
+  const [timerStarted, setTimerStarted] = useState(false);
+
+  // added timer maybe
+  const [timer, setTimer] = useState(0);
+  const newTimer = useMemo(() => timer + 1, [timer]);
+  useEffect(() => {
+    const interval = setInterval(() => setTimer(newTimer), 1000);
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const startTimer = () => {
+    if (!timerStarted) {
+      setTimerStarted(true);
+    }
+  };
 
   useEffect(() => {
     setNewDeck(shuffledCards());
@@ -58,9 +74,7 @@ function Home() {
 
   const handleCardClick = (card) => {
     if (lastCard) {
-      console.log('comparing: ', lastCard, card);
       if (lastCard === card) {
-        console.log('gud cards');
         if (okCards.length === deck.length / 2 - 1) {
           setTimeout(() => {
             setGameCounter(gameCounter + 1);
@@ -68,12 +82,14 @@ function Home() {
             setOkCards([]);
             setLastCard();
             setNewDeck([]);
+            setTimer(0);
+            setTimerStarted(false);
           }, 1500);
         }
 
         setOkCards([...okCards, card]);
       } else {
-        console.log('bad cards');
+        console.log('better luck next time !');
       }
       setLastCard();
     } else {
@@ -102,11 +118,20 @@ function Home() {
     <div className={styles.home}>
       <div className={styles.header}>
         <h1 className={styles.headerTitle}>Memory Game 🧠</h1>
+        <h2>
+          {timerStarted ? (
+            <Timer gameCounter={gameCounter} timer={timer} />
+          ) : (
+            <span className={styles.timer}>Click to start new game</span>
+          )}
+        </h2>
         <div className={styles.headerDivider} />
       </div>
 
       <div className={styles.main}>
-        <div className={styles.grid}>{cardsToDisplay}</div>
+        <div className={styles.grid} onClick={() => startTimer()}>
+          {cardsToDisplay}
+        </div>
       </div>
     </div>
   );
