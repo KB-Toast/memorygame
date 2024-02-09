@@ -34,7 +34,7 @@ function Home() {
   const [timer, setTimer] = useState(0);
   //const newTimer = timer + 1;
   useEffect(() => {
-    if (timerStarted === true && okCards.length < deck.length / 2 - 1) {
+    if (timerStarted === true && okCards.length < deck.length / 2) {
       const newTimer = timer + 1;
       const interval = setInterval(() => setTimer(newTimer), 1000);
       return () => clearInterval(interval);
