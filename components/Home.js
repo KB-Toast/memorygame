@@ -34,7 +34,7 @@ function Home() {
   const [timer, setTimer] = useState(0);
   //const newTimer = timer + 1;
   useEffect(() => {
-    if (timerStarted === true) {
+    if (timerStarted === true && okCards.length < deck.length / 2 - 1) {
       const newTimer = timer + 1;
       const interval = setInterval(() => setTimer(newTimer), 1000);
       return () => clearInterval(interval);
@@ -70,7 +70,7 @@ function Home() {
     setTimeout(() => {
       setSelected([]);
       setLastCard();
-    }, 1000);
+    }, 800);
   };
 
   const handleCardClick = (card) => {
@@ -85,7 +85,7 @@ function Home() {
             setNewDeck([]);
             setTimer(0);
             setTimerStarted(false);
-          }, 1500);
+          }, 2500);
         }
 
         setOkCards([...okCards, card]);
@@ -123,7 +123,7 @@ function Home() {
           {timerStarted ? (
             <Timer gameCounter={gameCounter} timer={timer} />
           ) : (
-            <span className={styles.timer}>Click to start new game</span>
+            <span className={styles.timer}>Click on img to start new game</span>
           )}
         </h2>
         <div className={styles.headerDivider} />
