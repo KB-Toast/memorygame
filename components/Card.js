@@ -3,8 +3,12 @@ import styles from '../styles/Card.module.css';
 
 function Card(props) {
   const handleClick = () => {
+    const card = {
+      name: props.name,
+      id: props.id,
+    };
     props.selectCard(props.id);
-    props.handleCardClick(props.name);
+    props.handleCardClick(card);
   };
 
   return (

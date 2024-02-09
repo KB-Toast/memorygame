@@ -74,8 +74,8 @@ function Home() {
   };
 
   const handleCardClick = (card) => {
-    if (lastCard) {
-      if (lastCard === card) {
+    if (lastCard && lastCard.id !== card.id) {
+      if (lastCard.name === card.name) {
         if (okCards.length === deck.length / 2 - 1) {
           setTimeout(() => {
             setGameCounter(gameCounter + 1);
