@@ -32,16 +32,17 @@ function Home() {
 
   // added timer maybe
   const [timer, setTimer] = useState(0);
-  const newTimer = useMemo(() => timer + 1, [timer]);
+  //const newTimer = timer + 1;
   useEffect(() => {
-    const interval = setInterval(() => setTimer(newTimer), 1000);
-    return () => clearInterval(interval);
-  }, [timer]);
+    if (timerStarted === true) {
+      const newTimer = timer + 1;
+      const interval = setInterval(() => setTimer(newTimer), 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer, timerStarted]);
 
   const startTimer = () => {
-    if (!timerStarted) {
-      setTimerStarted(true);
-    }
+    !timerStarted && setTimerStarted(true);
   };
 
   useEffect(() => {
